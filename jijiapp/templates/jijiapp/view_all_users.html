@@ -1,0 +1,18 @@
+{% extends 'jijiapp/base/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %} Upload Item {% endblock %}
+
+
+{% block content %}
+
+<div class="mx-5 px-5 col-md-5 mx-auto bg-info ">
+    <div class = "row mb-3">
+        <label class="col-md-2 col-form-label"></label>
+        <div class="col-sm-10 form-control">
+            <a href="{% url 'list_of_user' %}">List of all customers</a>
+        </div>
+        
+    </div> 
+    
+{% endblock %}

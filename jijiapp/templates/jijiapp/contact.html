@@ -1,0 +1,57 @@
+{% extends 'jijiapp/base/base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <h2>Contact Us</h2>
+                <hr>
+                <div class="text-success mx-auto">
+                    {% for msgs in messages %}
+                    <span>
+                        {{ msgs }}
+                    </span>
+                    {% endfor %}
+                </div>
+                <form method="POST" action="{% url 'contact' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea class="form-control" id="message" name="message" rows="5" placeholder="Enter your message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+        {% if user.is_staff %}
+        <h1 class="mb-6 text-center">Message</h1>
+
+        <div class="container">
+            <div class="row">
+                <div class=" col-md-8 mx-auto">
+                    {% for contact in contacts %}
+                        <div class="p-6 flex bg-blue-100 rounded-xl">
+                            <div>
+                                <p class="mb-4"><strong>{{ contact.name }}</strong> @ {{ contact.contact_date }}</p>
+                                <hr>
+                                <p>{{ contact.message }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'jijiapp/base/base.html' %}
+{% load static %}
+{% include 'jijiapp/base/index.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      {% if item.user == request.user  %}
+      <h1 class="mb-6 text-center mb-5">Reply to conversations</h1>
+      {% else %}
+      <h1 class="mb-6 text-center">Conversation with {{ item.user }}</h1>
+      {% endif %}
+
+      <div class="row">
+        <div class="col-md-8">
+            {% for message in conversation.messages.all|slice:":4" %}
+            <div class="p-3 mb-3 {% if message.created_by == request.user %}bg-primary text-white{% else %}bg-secondary{% endif %} rounded-xl">
+                <div class="col-md-12">
+                    <p class="mb-1"><strong>{{ message.created_by.username }}</strong> @ {{ message.created_at }}</p>
+                    <p class="mb-0">{{ message.content }}</p>
+                    <a class="mb-0 text-danger" href="{% url 'delete_con' conversation.id %}">Delete</a>
+                </div>
+            </div>
+            {% endfor %}
+            
+        </div>
+    
+        <div class="col-md-4">
+            <div class="row mx-2 mb-3">
+                <div class="col-sm-12 mx-auto p-3">
+                    <img src="{{ item.thumbnails.url }}" alt="first image" class="img-thumbnail" style="width:100%; max-width: 200px;">
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-md-8 mx-auto">
+            <form method="post" action="." class="mt-6">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.content|as_crispy_field }}
+                    <button class="btn btn-primary mt-3">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,118 @@
+{% extends 'jijiapp/base/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %} Upload Item {% endblock %}
+
+
+{% block content %}
+<div class="">
+    <div class="mx-5 px-5 col-sm-10 col-md-10 col-lg-5 mx-auto bg-info ">
+        <h4 class="text-center lead">Add item to {{ store.name }}</h4>
+        <form action="{{ item_url }}" method="post", enctype="multipart/form-data">
+            
+            {% csrf_token %}
+            
+            <div class = "row mb-3">
+                <label class="col-md-5 col-form-label">{{ itemsform.label }}</label>
+                <div class="col-sm-5 form-control ">
+                    {{ itemsform.title|as_crispy_field }}
+                </div>
+                {{ itemsform.title.errors }}
+            </div>
+            <div class = "row mb-3">
+                <label class="col-md-2 col-form-label">{{ itemsform.label }}</label>
+                <div class="col-sm-10 form-control">
+                    {{ itemsform.price|as_crispy_field }}
+                </div>
+                {{ itemsform.price.errors }}
+                
+            </div> 
+            <div class = "row mb-3">
+                <label class="col-md-2 col-form-label">{{ itemsform.label }}</label>
+                <div class="col-sm-10 form-control">
+                    {{ itemsform.phone|as_crispy_field }}
+                </div>
+                {{ itemsform.phone.errors }}
+            </div> 
+            <div class = "row mb-3">
+                <label class="col-md-2 col-form-label">{{ itemsform.label }}</label>
+                <div class="col-sm-10 form-control">
+                    {{ itemsform.location |as_crispy_field}}
+                </div>
+                {{ itemsform.location.errors }}
+            </div> 
+            
+            <div class = "row mb-3">
+                <label class="col-md-2 col-form-label">{{ itemsform.label }}</label>
+                <div class="col-sm-10 form-control">
+                    {{ itemsform.category |as_crispy_field}}
+                </div>
+                {{ itemsform.category.errors }}
+            </div>
+            
+            <div class = "row mb-3">
+                <label class="col-md-2 col-form-label">{{ itemsform.label }}</label>
+                <div class="col-sm-10 form-control">
+                    <div class="col-sm-10 ">
+                    {{ itemsform.description|as_crispy_field }}
+                </div>
+                {{ itemsform.description.errors }}
+            </div>
+            <div class = "row mb-3">
+                <label class="col-md-2 col-form-label">{{ itemsform.label }}</label>
+                <div class="col-sm-10 form-control">
+                    {{ itemsform.thumbnails |as_crispy_field }}
+                </div>
+                {{ itemsform.thumbnails.errors }}
+            </div>
+            <div class = "row mb-3">
+                <label class="col-md-2 col-form-label">{{ imageforms.label }}</label>
+                <div class="col-sm-10 form-control">
+                    {{ imageforms.image |as_crispy_field}}
+                </div>
+                {{ imageforms.image.errors }}
+            </div>
+            
+
+
+            <button class="btn btn-secondary mb-5" >Save</button>
+                
+
+        </form>
+
+    </div>
+    
+</div>
+<div class="col-md-7 bg-info mx-auto mb-5 p-2">
+        
+        <div class="row rowwidth pt-5 bg-dark">
+            <h4 class="text-center lead text-white">Items you created recently</h4>
+  
+            {% for item in items %}
+            <div class="col-sm-10 col-md-4 col-lg-4 second-card-style">
+              <div class="card" style="background-color:rgb(196, 223, 223)">
+                <div class="card-image-top">
+                  
+                  <img src="{{ item.thumbnails.url }}" alt="first image" class="image2 thumbnails  w-100" >
+                  
+                  <div class="card-body">
+                    <p class="card-title">{{ item.title }}</p>
+                    <hr>
+                   
+                    <p class="card-text">Price: <strike>N</strike>{{ item.price }}</p>
+                    
+                    
+                    <hr>
+                    <a href="{% url 'detail' item.pk %}" class="btn btn-success">View</a>
+                  </div>
+                  
+                </div>
+              </div>
+              
+            </div>
+          
+            {% endfor %}
+          </div>
+</div>
+
+{% endblock %}

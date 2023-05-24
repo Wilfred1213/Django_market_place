@@ -1,0 +1,48 @@
+{% extends 'jijiapp/base/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="row rowwidth pt-5 bg-dark">
+    <div class="mx-auto">
+        <h3 class="lead text-white text-center bg-info">Your favorite items</h3>
+    </div>
+  {% if favs %}
+    {% for item in favs %}
+    <div class="col-md-2 col-sm-4 col-lg-2 second-card-style">
+      <div class="card" style="background-color:rgb(196, 223, 223)">
+        <div class="card-image-top">
+          
+          <img src="{{ item.thumbnails.url }}" alt="first image" class="image2 thumbnails  w-100" >
+          
+          <div class="card-body">
+            <p class="card-title">{{ item.title }}</p>
+            <hr>
+    
+            <p class="card-text">Price: <strike>N</strike>{{ item.price }}</p>
+            
+            <hr>
+            <form method="post">
+              {% csrf_token %}
+              <input type="hidden" name="item_id" value="{{ item.id }}">
+              <button type="submit" class="btn btn-success mb-3">View </button>
+              <a href="{% url 'delete_fav' item.id %}" class="btn btn-success">Remove</a>
+            </form>
+        
+            <!-- <a href="{% url 'detail' item.id %}" class="btn btn-success">View details</a> -->
+          </div>
+          
+        </div>
+      </div>
+      
+    </div>
+  
+    {% endfor %}
+    {% else %}
+    <div class="text-bold text-center lead text-white">
+        <p>Your favorite is empty</p>
+    </div>
+    {% endif %}
+  </div>
+  {% endblock %}

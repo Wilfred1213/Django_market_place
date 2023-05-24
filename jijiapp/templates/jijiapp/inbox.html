@@ -1,0 +1,39 @@
+{% extends 'jijiapp/base/base.html' %}
+{% load static %}
+{% include 'jijiapp/base/index.html' %}
+
+{% block title %}Inbox{% endblock %}
+
+{% block content %}
+<div class="container col-md-6 mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  
+<div class="container col-md-6 col-sm-6 col-lg-6 pt-5">
+  <div class="space-y-6 mb-5">
+    {% for conversation in conversations %}
+      <a href="{% url 'chatdetail' pk=conversation.item.pk %}">
+        <div class="flex bg-white shadow-lg rounded-lg overflow-hidden mb-5">
+          <div class="w-24">
+            <img src="{{ conversation.item.thumbnails.url }}" class=" object-cover" style="width: 100px; height: auto;">
+          </div>
+          <div class="p-4 flex-1">
+            <div class="flex justify-between ">
+              {% for member in conversation.members.all %}
+                {% if member != request.user %}
+                  <p class="text-lg font-semibold">{{ member.username }}</p>
+                {% endif %}
+              {% endfor %}
+              <p class="text-gray-500 text-sm">{{ conversation.modified_at }}</p>
+            </div>
+            <p class="text-sm lead">{{ conversation.item.name }}</p>
+          </div>
+          <a href="{% url 'delete_inbox' conversation.id %}" class="text-danger">Delete inbox</a>
+        </div>
+        
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+</div>
+  {% endblock %}
+

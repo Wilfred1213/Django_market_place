@@ -1,0 +1,119 @@
+{% extends 'jijiapp/base/base.html' %}
+{% load static %}
+{% include 'jijiapp/base/index.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container py-5" style="background-color: #f8f9fa; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      {% if item.user == request.user  %}
+      <div class="card" style="background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); padding: 20px; margin-bottom: 20px;">
+        <div class="card-header" style="background-color: #f8f9fa; padding: 10px; border-radius: 5px;">
+          <h1 class="card-title mb-0 text-center" style="margin-bottom: 20px; font-size: 24px;">Reply to conversations</h1>
+        </div>
+      {% else %}
+      <div class="card" style="background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); padding: 20px; margin-bottom: 20px;">
+        <div class="card-header" style="background-color: #f8f9fa; padding: 10px; border-radius: 5px;">
+          <h1 class="card-title mb-0">Conversation with {{ item.user }}</h1>
+        </div>
+      {% endif %}
+
+      <div class="row">
+        <div class="col-md-8">
+          <div class="message-container" style="max-height: 400px; overflow-y: scroll;">
+            {% for message in conversation.messages.all|slice:":4" %}
+            <div class="message" style="background-color: #f1f5f8; border-radius: 5px; padding: 10px; margin-bottom: 10px;">
+              <div class="sender" style="font-weight: bold; margin-bottom: 5px;">{{ message.created_by.username }}</div>
+              <div class="timestamp" style="font-size: 12px; color: #6c757d;">{{ message.created_at }}</div>
+              <div class="content">{{ message.content }}</div>
+              <a class="text-danger" href="{% url 'delete_con' conversation.id %}" style="margin-top: 10px; display: block;">Delete</a>
+            </div>
+            {% endfor %}
+
+            <div class="hidden-messages" id="hidden-messages" style="display: none;">
+              {% for message in conversation.messages.all|slice:"4:" %}
+              <div class="message" style="background-color: #f1f5f8; border-radius: 5px; padding: 10px; margin-bottom: 10px;">
+                <div class="sender" style="font-weight: bold; margin-bottom: 5px;">{{ message.created_by.username }}</div>
+                <div class="timestamp" style="font-size: 12px; color: #6c757d;">{{ message.created_at }}</div>
+                <div class="content">{{ message.content }}</div>
+                <a class="text-danger" href="{% url 'delete_con' conversation.id %}" style="margin-top: 10px; display: block;">Delete</a>
+              </div>
+              {% endfor %}
+            </div>
+
+            {% if conversation.messages.count > 3 %}
+            <a href="#" id="toggle-button" class="toggle-button" style="background-color: #007bff; color: #fff; border: none; padding: 8px 16px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top: 10px; display: block;">Show all messages</a>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="row mx-2 mb-3">
+            <div class="col-sm-12 mx-auto p-3">
+              <img src="{{ item.thumbnails.url }}" alt="first image" class="img-thumbnail" style="width:100%; max-width: 200px;">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-8 mx-auto">
+          <form method="post" id = "chat-form" class="mt-6">
+            {% csrf_token %}
+            <div class="form-group ">
+              {{ form.content|as_crispy_field }}
+              <button class="btn btn-primary mt-3">Send</button>
+            </div>
+          </form>
+          <div id="chat-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+$(document).ready(function() {
+  console.log("Document ready function is executing");
+
+  $("#chat-form").submit(function(e) {
+    e.preventDefault();
+    var form = $(this);
+
+    $.ajax({
+      type: "POST",
+      url: ".",
+      data: form.serialize(),
+      dataType: "json",
+      success: function(response) {
+        console.log(response);
+
+        // Clear the input field
+        console.log("Executing clear textarea code");
+
+        form.find("textarea[name='content']").val("");
+
+        // Display the response content in a separate element
+        if (response.content) {
+          $("#chat-container").append("<p>" + response.content + "</p>");
+        }
+      },
+      error: function(xhr, status, error) {
+        console.log(xhr.response);
+      }
+    });
+  });
+
+  $("#toggle-button").click(function(e) {
+    e.preventDefault();
+    $("#hidden-messages").toggle();
+    if ($("#hidden-messages").is(":visible")) {
+      $(this).text("Hide messages");
+    } else {
+      $(this).text("Show all messages");
+    }
+  });
+});
+</script>
+
+{% endblock %}

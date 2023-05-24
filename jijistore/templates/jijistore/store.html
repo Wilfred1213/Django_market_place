@@ -1,0 +1,130 @@
+{% extends 'jijiapp/base/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %} Upload Item {% endblock %}
+
+
+{% block content %}
+<div class="container mb-3" style="font:bold;">
+    <div class="col-5 bg-dark mx-auto text-white">
+        <div class="text-center pt-5 pb-3">
+            <h2 class="lead text-bold" style="font-size:2rem; font-weight: bold;">Create Store</h2>
+        </div>
+    </div>
+
+</div>
+
+<div class="mx-5 px-5 col-md-5 mx-auto bg-dark ">
+    <div class="text-danger">
+        {% for message in messages %}
+        <span>{{ message }}</span>
+        {% endfor %}
+    </div>
+<form action="" method="post", enctype="multipart/form-data">
+    
+        {% csrf_token %}
+        
+        <div class = "row mb-3">
+            <label class="col-md-5 col-form-label">{{ form.label }}</label>
+            <div class="col-sm-5 form-control ">
+                {{ form.name|as_crispy_field }}
+            </div>
+            {% for field in form %}
+            {{ field.name.errors }}
+            {% endfor %}
+        </div>
+        <div class = "row mb-3">
+            <label class="col-md-2 col-form-label">{{ form.label }}</label>
+            <div class="col-sm-10 form-control">
+                {{ form.discription|as_crispy_field }}
+            </div>
+            {% for field in form %}
+            {{ field.discription.errors }}
+            {% endfor %}
+            
+        </div> 
+        <div class = "row mb-3">
+            <label class="col-md-2 col-form-label">{{ form.label }}</label>
+            <div class="col-sm-10 form-control">
+                {{ form.location|as_crispy_field }}
+            </div>
+            {% for field in form %}
+            {{ field.location.errors }}
+            {% endfor %}
+        </div> 
+        
+        <div class = "row mb-3">
+            <label class="col-md-2 col-form-label">{{ form.label }}</label>
+            <div class="col-sm-10 form-control">
+                {{ form.logo |as_crispy_field}}
+            </div>
+            {% for field in form %}
+            {{ field.logo.errors }}
+            {% endfor %}
+        </div> 
+        
+      
+       <button class="btn btn-secondary mb-5">Create Store</button>
+        
+
+    </form>
+
+</div>
+<div class="col-md-8 bg-light" style ="justify-content: center;">
+    <div class="text-center pt-5 pb-3">
+        <h2>Stores you created</h2>
+    </div>
+</div>
+
+<div class="row rowwidth pt-5 bg-dark">
+    {% for store in created_by_you %}
+    <div class="col-sm-6 col-md-4 col-lg-4 card-style3 mb-4">
+        <div class="card" style="background-color:rgb(196, 223, 223)">
+            <div class="card-image-top">
+                <div class="container">
+                    <div class="row pt-2">
+                        <div class="col-2">
+                            <img src="{{ store.logo.url }}" alt="first image" class="thumbnails" style="width:50px; height:50px;">
+                        </div>
+                        <div class="col-6 mx-auto bg-dark text-white p-2 text-center lead">    
+                            <p class="card-title">{{ store.name }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <hr>
+                    <p class="card-text card1">{{ store.discription }}</p>
+                    <hr>
+                    <p class="card-text">Location:{{ store.location}}</p>
+                    <small class="card-footer text-danger">{{ store.create_date |date  }} | {{ store.author }}</small>
+                    <hr>
+                    <div class="row ">
+                        {% if user != store.author %}
+                        <div class="col-12 text-center mb-3">
+                            <a href="{% url 'jijistore:enter_store' store.id %}" class="btn btn-success">Enter store</a>
+                        </div> 
+                        {% else %}  
+                        <div class="col-6 text-center mb-3">
+                            <a href="{% url 'itemupload' store.id %}" class= "btn btn-success">Add Item</a>
+                        </div>
+                        <div class="col-6 text-center mb-3">
+                            <a href="{% url 'jijistore:enter_store' store.id %}" class="btn btn-success">Enter</a>
+                        </div>
+                        <div class="col-6 text-center mb-3">
+                            <a href="{% url 'deletstore' store.id %}" class="btn btn-success bg-danger">Delete</a>
+                        </div>
+                        <div class="col-6 text-center mb-3">
+                            <a href="{% url 'jijistore:edit_store' store.id %}" class="btn btn-success bg-success">Edit</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+     
+
+
+{% endblock %}

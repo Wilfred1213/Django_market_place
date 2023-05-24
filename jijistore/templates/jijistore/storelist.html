@@ -1,0 +1,77 @@
+{% extends 'jijiapp/base/base.html' %}
+{% load static %}
+{% block title %} Welcome to Jiji Clone {% endblock %}
+
+{% block content %}
+
+
+<div class="">
+  
+    
+    <div class="col-sm-4 col-md-4 mx-auto">
+      <img src="{% static 'images/speaker.jfif' %}" alt="images/jiji man image.png">
+    </div>
+  
+</div>
+  
+<div class="card">
+  
+  
+  <div class="loaction text-center">
+    <p class="lead">Fine everything you want all in <strong><i class="fa fa-map"></i> Nigeria </strong></p>
+  </div>
+
+  
+  
+    <div class="input-group">
+  
+      <div class="form-outline ">
+        <div class="label">
+          <input id="search-input" type="search" id="form1" class="form-control" placeholder="Search" style="height: 50px; width: 500px;"/>
+          <label class="form-label" for="form1"></label>
+        </div>
+      </div>
+      <button id="search-button" type="button" class=" btn btn-primary " style="height: 50px;">
+        <i class="fa fa-search"></i>
+      </button>
+    
+       
+    </div>
+  
+{% block name %}
+{% endblock %}
+<div class="row rowwidth pt-5 bg-dark">
+  
+  {% for item in items %}
+  <div class="col-md-2 col-sm-4 col-lg-2 card-style">
+    <div class="card" style="background-color:rgb(196, 223, 223)">
+      <div class="card-image-top">
+        
+        <img src="{{ item.thumbnails.url }}" alt="first image" class="image1 thumbnails  w-100" >
+        
+        <div class="card-body">
+          <p class="card-title">{{ item.title }}</p>
+          <hr>
+         
+          <p class="card-text card1">{{ item.description }} | {{ count.count }} pics</p>
+          
+          <hr>
+          <p class="card-text">Price: <strike>N</strike>{{ item.price }}</p>
+          
+          <small class="card-footer text-danger">{{ item.post_date |date  }} | {{ item.user }}</small>
+          <hr>
+          <a href="{% url 'detail' item.id %}" class="btn btn-success">View details</a>
+        </div>
+        
+      </div>
+    </div>
+    
+  </div>
+
+  {% endfor %}
+</div>
+
+
+</div>
+
+{% endblock %}

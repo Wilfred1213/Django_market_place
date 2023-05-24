@@ -1,0 +1,121 @@
+{% extends 'jijiapp/base/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+<!-- viewed item -->
+{% if viewed_items %}
+<div class="row rowwidth pt-5 bg-dark mb-5">
+    <h4 class="lead text-center text-white">Items you viewed recently</h4>
+  
+    {% for item in viewed_items %}
+    {% if item not in favs %}
+    <div class="col-lg-2 col-md-4 col-sm-4 card-style0 mx-auto">
+      <div class="card bg-light card-style ">
+        <img src="{{ item.thumbnails.url }}" alt="First Image" class="card-img-top image0">
+        <div class="card-body">
+          <h5 class="card-title">{{ item.title }}</h5>
+          <hr class="star-light">
+          <div class="row">
+            <div class="col-6 mx-auto mb-3">
+              <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="item_id" value="{{ item.id }}">
+                <button type="submit" class="btn btn-primary m">View</button>
+              </form>
+            </div>
+            <div class="container">
+                <div class="col-6 mx-auto">
+                    {% if item.id not in favs %}
+                    <form action="{% url 'favorite' %}" method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="favorite_id" value="{{ item.id }}">
+                      <button type="submit" name="favorite" class="btn btn-success btn-block w-60 mb-0">Favorites</button>
+                    </form>
+                    {% endif %}
+                  </div>
+                </div>  
+            </div>
+            
+          
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+
+</div>
+
+{% endif %}
+      
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 col-md-6 mx-auto">
+        <div class="image-container">
+            <img src="{{ homeimage.image.url }}" alt="images/jiji man image.png" class="img-fluid">
+        </div>
+        </div>
+    </div>
+</div>
+      
+      
+<div class="card">
+    <div class="loaction text-center">
+        <p class="lead">Find everything you want all in <strong><i class="fa fa-map"></i> Nigeria </strong></p>
+    </div>
+
+    <form action="." method="get" class="d-flex justify-content-center">
+        <div class="form-outline col-sm-6 col-md-4">
+            <div class="label">
+                <input id="search-input" type="search" name="search" class="form-control"
+                        placeholder="Search" style="height: 50px;"/>
+                <label class="form-label" for="form1"></label>
+            </div>
+        </div>
+        <button id="search-button" class="btn btn-primary" style="height: 50px;">
+            <i class="fa fa-search"></i>
+        </button>
+    </form>
+
+    {% if item_category %}
+    <div class="row rowwidth pt-5 bg-light">
+        {% for item in item_category%}
+        <div class="col-md-2 col-sm-4 col-lg-2 card-style0 ">
+            <div class="card" style="background-color:rgb(196, 223, 223)">
+            <div class="card-image-top">
+                
+                <img src="{{ item.thumbnails.url }}" alt="first image" class="image0 thumbnails  w-100" >
+                
+                <div class="card-body">
+                <p class="card-title">{{ item.title }}</p>
+                <hr>
+                
+                <p class="card-text">Price: <strike>N</strike>{{ item.price }}</p>
+                
+                <hr>
+                <a href="{% url 'detail' item.id %}" class="btn btn-success">View</a>
+                </div>
+                
+            </div>
+            </div>
+            
+        </div>
+
+        {% endfor %}
+    </div>
+    {% elif item_category == None %}
+        <p class="text-center text-danger">
+            Search for Items here!! 
+            
+        </p>
+    {% else %}
+        <p class="text-center text-danger">
+            
+            No item with name {{ name }}
+        </p>
+    {% endif %}
+</div>
+{% endblock %}

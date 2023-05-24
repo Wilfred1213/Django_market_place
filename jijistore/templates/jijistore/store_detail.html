@@ -1,0 +1,63 @@
+{% extends 'jijiapp/base/base.html' %}
+{% load static %}
+{% block title %} Welcome to Jiji Clone {% endblock %}
+
+{% block content %}
+<div class="mx-5 px-5 col-md-5 mx-auto bg-info">
+    <div class="text-danger text-center">
+        {% for message in messages %}
+        <span>{{ message }}</span>
+        {% endfor %}
+    </div>
+</div>
+<div class="container mb-3" style="font: bold;">
+    <div class="col-5 bg-info mx-auto">
+        <div class="text-center pt-5 pb-3">
+            <h2 class="lead text-bold" style="font-size: 2rem; font-weight: bold;">{{ details.name }}</h2>
+        </div>
+    </div>
+</div>
+{% if items %}
+<div class="row rowwidth pt-5 bg-dark">
+    {% for item in items %}
+    <div class="col-md-4 col-sm-4 col-lg-3 card-style4">
+        <div class="card" style="background-color: rgb(196, 223, 223)">
+            <div class="card-image-top">
+                <img src="{{ item.thumbnails.url }}" alt="first image" class="image3 thumbnails w-100">
+                <div class="card-body">
+                    <p class="card-title">{{ item.title }}</p>
+                    <hr>
+                    <p class="card-text">Price: <strike>N</strike>{{ item.price }}</p>
+                    <div class="row">
+                        {% if user != item.user %}
+                        <div class="col-12 text-center mb-3">
+                            <a href="{% url 'detail' item.pk %}" class="btn btn-success btn-block">View</a>
+                        </div>
+                        {% else %}
+                        <div class="col-6 text-center mb-3">
+                            <a href="{% url 'jijistore:all_store' %}" class="btn btn-success btn-block">Store</a>
+                        </div>
+                        <div class="col-6 text-center mb-3">
+                            <a href="{% url 'detail' item.pk %}" class="btn btn-success btn-block">View</a>
+                        </div>
+                        <div class="col-6 text-center mb-3">
+                            <a href="{% url 'deleteitem' item.id %}" class="btn btn-success bg-danger btn-block">Delete</a>
+                        </div>
+                        <div class="col-6 text-center mb-3">
+                            <a href="{% url 'edit_item' item.id %}" class="btn btn-success bg-success btn-block">Edit</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="text-center text-danger">
+    No Item in this store yet.!!
+</p>
+{% endif %}
+</div>
+{% endblock %}

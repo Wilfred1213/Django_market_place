@@ -1,0 +1,90 @@
+{% extends 'jijiapp/base/base.html' %}
+{% load static %}
+
+{% block title %} All Store {% endblock %}
+
+
+{% block content %}
+
+<div class="mx-5 px-5 col-md-5 mx-auto bg-info ">
+    <div class="text-danger text-center">
+        {% for message in messages %}
+        <span>{{ message }}</span>
+        {% endfor %}
+    </div>
+</div>
+<div class="container my-4">
+    <div class="col-8 col-md-6 col-lg-4 mx-auto">
+        <div class="text-center py-4 rounded-lg" style="background-color: #ff7f50;">
+            <h2 class="h4 font-weight-bold text-white">Enter a Store</h2>
+            <p class="text-white">Discover unique products and explore amazing stores</p>
+            <a href="{% url 'jijistore:storelist' %}" class="btn btn-light btn-lg mt-3">Create Store</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="row rowwidth pt-5 bg-dark">
+    <div class="container container-fluid">
+        <div class="text-center my-4 bg-primary rounded p-4">
+            <h3 class="text-white mb-3">Add Store</h3>
+            <a href="{% url 'jijistore:storelist' %}" class="btn btn-light btn-lg px-4 py-2">
+                <i class="fa fa-plus"></i> Add New Store
+            </a>
+            <p class="text-white mt-3">Expand your business and reach more customers.</p>
+        </div>
+    </div>
+
+    {% for store in stores %}
+    <div class="col-sm-6 col-md-4 col-lg-3 card-style3 mb-4">
+        <div class="card card-style h-100" style="background-color: rgb(196, 223, 223)">
+            <div class="card-image-top">
+                <div class="container">
+                    <div class="row pt-2">
+                        <div class="col-2">
+                            <img src="{{ store.logo.url }}" alt="first image" class="thumbnails" style="width: 50px; height: 50px;">
+                        </div>
+                        <div class="col-6 mx-auto bg-dark text-white p-2 text-center lead">
+                            <p class="card-title text-white">{{ store.name }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <hr>
+                    <p class="card-text card1">{{ store.discription }}</p>
+                    <hr>
+                    <p class="card-text">Location: {{ store.location }}</p>
+                    <small class="card-footer text-danger">{{ store.create_date | date }} | {{ store.author }}</small>
+                    <hr>
+                    <div class="row">
+                        {% if user != store.author %}
+                        <div class="col-12 text-center mb-3">
+                            <a href="{% url 'jijistore:enter_store' store.id %}" class="btn btn-success">Enter Store</a>
+                        </div>
+                        {% else %}
+                        <div class="col-6 text-center mb-3">
+                            <a href="{% url 'itemupload' store.id %}" class="btn btn-success">Add Item</a>
+                        </div>
+                        <div class="col-6 text-center mb-3">
+                            <a href="{% url 'jijistore:enter_store' store.id %}" class="btn btn-success">Enter</a>
+                        </div>
+                        <div class="col-6 text-center mb-3">
+                            <a href="{% url 'deletstore' store.id %}" class="btn btn-success bg-danger">Delete</a>
+                        </div>
+                        <div class="col-6 text-center mb-3">
+                            <a href="{% url 'jijistore:edit_store' store.id %}" class="btn btn-success bg-success">Edit</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+
+{% endblock %}
