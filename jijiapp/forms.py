@@ -4,6 +4,9 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.forms.widgets import ClearableFileInput
+from multiupload.fields import MultiFileField, MultiMediaField
+# from multiupload.widgets import MultiClearableFileInput
+
 
 from .models import ConversationMessage, Category
 
@@ -48,12 +51,27 @@ class ItemsForm(ModelForm):
         categorys =[(cat.id, cat.name) for cat in Category.objects.all()] 
         self.fields['category'].choices = [('', 'Select a Category')] + categorys   
 
-class ImageForm(ModelForm):
-    image = forms.ImageField(widget=ClearableFileInput(attrs={'class': 'form-control', "multiple":True}))
+class ImageForm(forms.ModelForm):
+    image = MultiFileField(max_num=5, min_num=1)
 
     class Meta:
         model = Images
         fields = ['image',]
+
+# class ImageForm(forms.ModelForm):
+#     image = MultiFileField(widget=MultiClearableFileInput(attrs={'class': 'form-control'}))
+
+#     class Meta:
+#         model = Images
+#         fields = ['image',]
+
+
+# class ImageForm(ModelForm):
+#     image = forms.ImageField(widget=ClearableFileInput(attrs={'class': 'form-control', "multiple":True}))
+
+#     class Meta:
+#         model = Images
+#         fields = ['image',]
   
 # class ImageForm(ModelForm):
 #     image = forms.ImageField(widget =forms.FileInput(attrs  = {'class':'form-control',
