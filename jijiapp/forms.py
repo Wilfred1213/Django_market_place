@@ -3,7 +3,7 @@ from .models import Items, Images
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-
+from django.forms.widgets import ClearableFileInput
 
 from .models import ConversationMessage, Category
 
@@ -47,14 +47,21 @@ class ItemsForm(ModelForm):
         super().__init__(*args, **kwargs)
         categorys =[(cat.id, cat.name) for cat in Category.objects.all()] 
         self.fields['category'].choices = [('', 'Select a Category')] + categorys   
-    
+
 class ImageForm(ModelForm):
-    image = forms.ImageField(widget =forms.FileInput(attrs  = {'class':'form-control',
-                "multiple":True}))
-    
+    image = forms.ImageField(widget=ClearableFileInput(attrs={'class': 'form-control', "multiple":True}))
+
     class Meta:
-        model =Images
+        model = Images
         fields = ['image',]
+  
+# class ImageForm(ModelForm):
+#     image = forms.ImageField(widget =forms.FileInput(attrs  = {'class':'form-control',
+#                 "multiple":True}))
+    
+#     class Meta:
+#         model =Images
+#         fields = ['image',]
         
 # authentication
 
