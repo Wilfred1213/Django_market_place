@@ -5,6 +5,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.forms.widgets import ClearableFileInput
 from multiupload.fields import MultiFileField, MultiMediaField
+
+
 # from multiupload.widgets import MultiClearableFileInput
 
 
@@ -83,15 +85,15 @@ class ImageForm(forms.ModelForm):
         
 # authentication
 
-class LoginForm(AuthenticationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={
-        'placeholder': 'Your username',
-        'class': ''
-    }))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'placeholder': 'Your password',
-        'class': ''
-    }))
+# class LoginForm(AuthenticationForm):
+#     username = forms.CharField(widget=forms.TextInput(attrs={
+#         'placeholder': 'Your username',
+#         'class': ''
+#     }))
+#     password = forms.CharField(widget=forms.PasswordInput(attrs={
+#         'placeholder': 'Your password',
+#         'class': ''
+#     }))
 
 class SignupForm(UserCreationForm):
     class Meta:
