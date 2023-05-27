@@ -47,8 +47,13 @@ INSTALLED_APPS = [
     'jijiapp',
     'jijistore',
     'crispy_forms',
+    'multiupload',
+    'crispy_bootstrap4',
     # 'channels',
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -151,7 +156,8 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CRISPY_TEMPLATE_PACK='bootstrap4'
+
+
 
 # email setup for gmail
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

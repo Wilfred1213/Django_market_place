@@ -8,7 +8,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', include('jijiapp.urls')),
+    path('', include('jijiapp.urls')),
     path('store/', include('jijistore.urls')),
     path('login/', auth_views.LoginView.as_view(template_name='jijiapp/registration/login.html', authentication_form=LoginForm), name='login'),
     # path('accounts/', include('django.contrib.auth.urls')),
