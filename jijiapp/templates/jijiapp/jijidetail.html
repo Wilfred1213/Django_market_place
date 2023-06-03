@@ -1,10 +1,11 @@
+{% extends 'jijiapp/base/base.html' %}
 {% load static %}
 
 {% load crispy_forms_tags %}
 
 {% block content %}
 
-{% include 'jijiapp/base/searchbase.html' %}
+
   <!-- images -->
   <div class="card bg-light mb-3">
     <div class="card-header text-center">
@@ -13,7 +14,7 @@
     <div class="card-body ">
       <div class="row px-5 mx-5 pt-3 thumbnailrow">
         {% for img in detail_item.images_set.all %}
-          <div class="col-md-3 col-sm-6 col-xs-12 thumbnail mb-3 img-zoom">
+          <div class="col-md-4 col-sm-4 col-lg-3 thumbnail mb-3 img-zoom">
             <div class="card">
               <img src="{{ img.image.url }}" alt="Product Image" class="card-img-top img-thumbnails img-fluid" style="height: 150px; width:auto; object-fit: contain;">
               <div class="card-footer text-center">
@@ -35,7 +36,7 @@
         <img src="{{ detail_item.thumbnails.url }}" alt="first image" class="col-md-4 img-thumbnails w-50 h-30 g-0 img-zoom">      
       </div>
         <div class="col-md-9 col-sm-10">
-          <p class="lead" style="font-size: 1rem; font-weight: bold; color: #1a237e; font-family: 'Montserrat', sans-serif;">{{ detail_item.description }}</p>
+          <p class="pt-3 bg-dark text-center" style="font-size: 1rem; font-weight: bold; color:white; font-family: 'Montserrat', sans-serif;">{{ detail_item.description }}</p>
           <hr>
           <p class="lead" style="font-size: 1.5rem; color: #546e7a; font-family: 'Open Sans', sans-serif;">Price: <strike>N</strike>{{ detail_item.price }}</p>
           <hr>
@@ -53,7 +54,7 @@
           <hr>
           <span class="lead" style="font-size: 1rem; color: #546e7a; font-family: 'Open Sans', sans-serif;">Posted since: {{ detail_item.post_date |date  }}</span>
           <hr>
-          <a class="lead btn btn-success mb-4" href="{{ store_routing }}" style="font-size: 1.5rem; font-family: 'Montserrat', sans-serif; background-color: #1a237e; border-color: #1a237e;">This "{{ detail_item.title }}" is coming from "{{ detail_item.store.name }}" store! View all items in this store <b>Enter store</b></a>
+          <a class="lead btn btn-success mb-4" href="{{ store_routing }}" style="font-size: 1rem; font-family: 'Montserrat', sans-serif; background-color: #1a237e; border-color: #1a237e;">This "{{ detail_item.title }}" is coming from "{{ detail_item.store.name }}" store! View all items in this store <b>Enter store</b></a>
         
       
       
@@ -105,8 +106,8 @@
 <div class="pt-3 col-md-4 col-sm-12 mx-auto mb-5">
   <div class="mx-auto" style="border: 2px solid red; max-width: 300px; padding: 20px; border-radius: 10px;">
     <div class="" style="justify-content: center; text-align: center;">
-      <h1 class="" style="color: red; font-size: 3rem;"><i class="fa fa-exclamation-triangle"></i><br><span style="font-weight: bold; text-decoration: underline;">Caution</span></h1>
-      <p class="lead" style="font-size: 1.2rem; line-height: 1.5; color: #444;">This person you are buying this stuff from may be a complete stranger and it is encouraged that you should be vigilant. Never pay money without receiving the item.</p>
+      <h1 class="" style="color: red; font-size: 2rem;"><i class="fa fa-exclamation-triangle"></i><br><span style="font-weight: bold; text-decoration: underline;">Caution</span></h1>
+      <p class="lead" style="font-size: 1rem; line-height: 1.5; color: #444;">This person you are buying this stuff from may be a complete stranger and it is encouraged that you should be vigilant. Never pay money without receiving the item.</p>
     </div>
   </div>
 </div>
@@ -116,7 +117,7 @@
 <div class="container-fluid bg-dark py-5 mb-5">
   <h1 class="text-center text-white mb-6">Feedbacks</h1>
   <div class="container">
-    <div class="col-md-8 mx-auto">
+    <div class="col-md-5 mx-auto">
       <form method="post" id ="feedback-form" class="mt-6 js">
         {% csrf_token %}
         {{ form.detail | as_crispy_field }}

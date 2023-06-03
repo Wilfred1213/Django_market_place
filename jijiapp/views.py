@@ -61,11 +61,10 @@ def inbox(request):
 
     count = 0
     for conversation in conversations:
-        try:
-            conversation_count = ConversationCount.objects.get(conversation=conversation)
+        conversation_counts = ConversationCount.objects.filter(conversation=conversation)
+        for conversation_count in conversation_counts:
             count += conversation_count.message_count
-        except ConversationCount.DoesNotExist:
-            pass
+
     
     if request.method == 'POST' and 'reset_message_count' in request.POST:
         ConversationCount.objects.filter(conversation__members=request.user).update(message_count=0)
@@ -98,12 +97,9 @@ def index(request):
     #         count += 1
     count = 0
     for conversation in conversations:
-        try:
-            conversation_count = ConversationCount.objects.get(conversation=conversation)
+        conversation_counts = ConversationCount.objects.filter(conversation=conversation)
+        for conversation_count in conversation_counts:
             count += conversation_count.message_count
-        except ConversationCount.DoesNotExist:
-            pass
-    
 
     if request.method == 'POST' and 'reset_message_count' in request.POST:
         ConversationCount.objects.filter(conversation__members=request.user).update(message_count=0)
@@ -201,11 +197,10 @@ def detail(request, pk):
     #         count += 1
     count = 0
     for conversation in conversations:
-        try:
-            conversation_count = ConversationCount.objects.get(conversation=conversation)
+        conversation_counts = ConversationCount.objects.filter(conversation=conversation)
+        for conversation_count in conversation_counts:
             count += conversation_count.message_count
-        except ConversationCount.DoesNotExist:
-            pass
+
     
 
     if request.method == 'POST' and 'reset_message_count' in request.POST:

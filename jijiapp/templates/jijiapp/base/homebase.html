@@ -1,23 +1,27 @@
-<div class="row rowwidth pt-5 bg-dark">
-  {% for item in all_item %}
-  <div class="col-md-3 col-sm-4 col-lg-2 mb-5">
-    <div class="card bg-light card-style card-style0">
-      <img src="{{ item.thumbnails.url }}" alt="First Image" class="card-img-top image0">
-      <div class="card-body">
-        <h5 class="card-title">{{ item.title }}</h5>
-        <hr class="star-light">
-        <p class="card-text">Price: <strike>N</strike>{{ item.price }}</p>
-        <hr>
-        {% if user.is_authenticated %}
-        <form method="post">
-          {% csrf_token %}
-          <input type="hidden" name="item_id" value="{{ item.id }}">
-          <button type="submit" class="btn btn-primary">View</button>
-        </form>
-        {% else %}
-        <a href="{% url 'login' %}" class="btn btn-success">Login to buy this item</a>
-        {% endif %}
+<div class="container container-fluid">
+  <div class="row rowwidth pt-5 bg-dark">
+    {% for item in all_item %}
+    <div class="col-lg-2 col-md-4 col-sm-4 mb-5">
+      <div class="card bg-light card-style card-style0">
+        <img src="{{ item.thumbnails.url }}" alt="First Image" class="card-img-top img-fluid mx-auto image0" style="height: 100px; object-fit: contain;">
+        <div class="card-body">
+          <h5 class="card-title">{{ item.title }}</h5>
+          <hr class="star-light">
+          <p class="card-text">Price: <strike>N</strike>{{ item.price }}</p>
+          <hr>
+          {% if user.is_authenticated %}
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="item_id" value="{{ item.id }}">
+            <button type="submit" class="btn btn-primary">View</button>
+          </form>
+          {% else %}
+          <a href="{% url 'login' %}" class="btn btn-success">Login to buy this item</a>
+          {% endif %}
+        </div>
       </div>
     </div>
+    {% endfor %}
   </div>
-  {% endfor %}
+  
+</div>

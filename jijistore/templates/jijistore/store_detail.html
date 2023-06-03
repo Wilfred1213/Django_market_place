@@ -4,26 +4,31 @@
 
 {% block content %}
 <div class="mx-5 px-5 col-md-5 mx-auto bg-info">
+    
     <div class="text-danger text-center">
         {% for message in messages %}
         <span>{{ message }}</span>
         {% endfor %}
+        
     </div>
+    
 </div>
-<div class="container mb-3" style="font: bold;">
-    <div class="col-5 bg-info mx-auto">
-        <div class="text-center pt-5 pb-3">
-            <h2 class="lead text-bold" style="font-size: 2rem; font-weight: bold;">{{ details.name }}</h2>
+<div class="container my-4">
+    <div class="col-8 col-md-6 col-lg-4 mx-auto">
+        <div class="text-center py-4 rounded-lg" style="background-color: #ff7f50;">
+            <h2 class="h4 font-weight-bold text-white">{{ details.name }}</h2>
+            <p class="text-white">Fine all items you need here</p>
+            <a href="{% url 'jijistore:all_store' %}" class="btn btn-light btn-lg mt-3">Back to store</a>
         </div>
     </div>
 </div>
 {% if items %}
 <div class="row rowwidth pt-5 bg-dark">
     {% for item in items %}
-    <div class="col-md-4 col-sm-4 col-lg-3 card-style4">
+    <div class="col-md-4 col-sm-4 col-lg-3 card-style4 mx-auto mb-4">
         <div class="card" style="background-color: rgb(196, 223, 223)">
             <div class="card-image-top">
-                <img src="{{ item.thumbnails.url }}" alt="first image" class="image3 thumbnails w-100">
+                <img src="{{ item.thumbnails.url }}" alt="first image" class="pt-5 card-img-top img-fluid mx-auto image0 thumbnails w-100" style="height: 200px; object-fit: contain;">
                 <div class="card-body">
                     <p class="card-title">{{ item.title }}</p>
                     <hr>

@@ -1,46 +1,26 @@
-{% extends 'jijiapp/base/base.html' %}
-{% load static %}
 
-{% block title %} All Store {% endblock %}
-
-
-{% block content %}
-
-<div class="mx-5 px-5 col-md-5 mx-auto bg-info ">
-    <div class="text-danger text-center">
-        {% for message in messages %}
-        <span>{{ message }}</span>
-        {% endfor %}
+<div class="card">
+    <div class="loaction text-center">
+        <p class="lead">Find Store</p>
     </div>
-</div>
-<div class="container my-4">
-    <div class="col-8 col-md-6 col-lg-4 mx-auto">
-        <div class="text-center py-4 rounded-lg" style="background-color: #ff7f50;">
-            <h2 class="h4 font-weight-bold text-white">Enter a Store</h2>
-            <p class="text-white">Discover unique products and explore amazing stores</p>
-            <a href="{% url 'jijistore:storelist' %}" class="btn btn-light btn-lg mt-3">Create Store</a>
+
+    <form action="." method="get" class="d-flex justify-content-center">
+        <div class="form-outline col-sm-6 col-md-4">
+            <div class="label">
+                <input id="search-input" type="search" name="search" class="form-control"
+                        placeholder="Search" style="height: 50px;"/>
+                <label class="form-label" for="form1"></label>
+            </div>
         </div>
-    </div>
-</div>
+        <button id="search-button" class="btn btn-primary" style="height: 50px;">
+            <i class="fa fa-search"></i>
+        </button>
+    </form>
 
-
-
-
-<div class="row rowwidth pt-5 bg-dark">
-    <div class="container container-fluid">
-        <div class="text-center my-4 bg-primary rounded p-4">
-            <h3 class="text-white mb-3">Add Store</h3>
-            <a href="{% url 'jijistore:storelist' %}" class="btn btn-light btn-lg px-4 py-2">
-                <i class="fa fa-plus"></i> Add New Store
-            </a>
-            <p class="text-white mt-3">Expand your business and reach more customers.</p>
-        </div>
-    </div>
-
-    {% include 'jijiapp/base/storebase.html' %}
-
-    {% for store in stores %}
-    <div class="col-sm-4 col-md-4 col-lg-3 card-style3 mb-4 pt-3">
+    {% if search_store %}
+    <div class="row rowwidth pt-5 bg-light mb-5"> 
+    {% for store in search_store %}
+    <div class="col-sm-4 col-md-4 col-lg-3 card-style3 mb-4 mx-auto">
         <div class="card card-style h-100" style="background-color: rgb(196, 223, 223)">
             <div class="card-image-top">
                 <div class="container">
@@ -85,8 +65,16 @@
         </div>
     </div>
     {% endfor %}
+    </div>
+    {% elif search_store == None %}
+        <p class="text-center text-danger">
+            Search for Store here!! 
+            
+        </p>
+    {% else %}
+        <p class="text-center text-danger">
+            
+            No Store with name {{ name }}
+        </p>
+    {% endif %}
 </div>
-
-
-
-{% endblock %}

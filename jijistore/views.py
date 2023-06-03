@@ -3,6 +3,7 @@ from jijiapp.models import Items, Store, Images
 from jijistore.forms import storeForm
 from django.contrib import messages
 from django.urls import reverse
+from django.db.models import Count, Q
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -44,10 +45,20 @@ def storelist(request):
 def all_store(request):
     store = Store.objects.all()
     
+    name = request.GET.get('search')
+        
+    search_store= store.filter(Q(name__icontains=name) 
+                            | Q(author__username__icontains=name) 
+                            | Q(discription__icontains=name)) if name else None
+    
+    
     context = {
+        'name':name,
         'stores':store,
+        'search_store':search_store,
     }
     return render(request, 'jijistore/all_store.html', context)
+
 @login_required
 def enter_store(request, store):
     
