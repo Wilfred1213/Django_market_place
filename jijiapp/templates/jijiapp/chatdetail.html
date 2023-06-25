@@ -20,7 +20,7 @@
       {% endif %}
 
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 col-sm-12">
           <div class="message-container" style="max-height: 400px; overflow-y: scroll;">
             {% for message in conversation.messages.all|slice:":4" %}
             <div class="message" style="background-color: #f1f5f8; border-radius: 5px; padding: 10px; margin-bottom: 10px;">
@@ -52,6 +52,9 @@
           <div class="row mx-2 mb-3">
             <div class="col-sm-12 mx-auto p-3">
               <img src="{{ item.thumbnails.url }}" alt="first image" class="img-thumbnail" style="width:100%; max-width: 200px;">
+              <hr>
+              <small>{{ item.title }} | Price: {{ item.price }}</small>
+              <hr>
             </div>
           </div>
         </div>

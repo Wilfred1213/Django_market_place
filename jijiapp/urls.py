@@ -21,6 +21,7 @@ urlpatterns = [
     path('edit_item/<int:item_id>/', views.edit_item, name='edit_item'),
     path('delete_inbox/<int:item_id>/', views.delete_inbox, name='delete_inbox' ),
     path('delete_con/<int:item_id>/', views.delete_con, name='delete_con' ),
+    path('categories/<int:item_id>/', views.categories, name='categories' ),
     
     path('favorite/', views.favorite, name='favorite'),
     path('delete_fav/<int:item_id>/', views.delete_fav, name='delete_fav' ),

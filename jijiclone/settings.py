@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'jijistore',
     'crispy_forms',
     'multiupload',
-    'crispy_bootstrap4',
+    # 'crispy_bootstrap4',
     # 'channels',
 ]
 

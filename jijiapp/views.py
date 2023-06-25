@@ -10,7 +10,7 @@ from django.contrib.auth import logout
 from django.urls import reverse
 from django.views.generic import ListView
 from django.utils import timezone
-from jijiapp.refractor import view, rate_item, get_message_count
+from jijiapp.refractor import view, rate_item, category, get_message_count
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import PasswordResetDoneView
 from django.contrib.auth.forms import PasswordResetForm
@@ -81,6 +81,7 @@ def reset_message_count(request):
     if request.method == 'POST':
         ConversationCount.objects.filter(conversation__members=request.user).update(message_count=0)
         return redirect('inbox')
+    
 @login_required  
 def index(request):
     
@@ -89,12 +90,8 @@ def index(request):
     user = request.user
     
     conversations = Conversation.objects.filter(members=request.user)
+    
 
-    # count = 0
-    # for conversation in conversations:
-    #     recent_message = conversation.messages.order_by('-created_at').first()
-    #     if recent_message:
-    #         count += 1
     count = 0
     for conversation in conversations:
         conversation_counts = ConversationCount.objects.filter(conversation=conversation)
@@ -151,9 +148,10 @@ def index(request):
         viewed_items = None
         
         fav =None
-    
+    category = Category.objects.all()
     context = {
         'user': user,
+        'category':category,
         'all_item': item,
         'count': count,
         'name': name,
@@ -169,13 +167,23 @@ def index(request):
    
     return render(request, 'jijiapp/index.html', context)
 
+def categories(request, item_id):
+    
+    
+    catego =category(request, item_id)   
+    context = {
+        'category': catego,
+    }
+    return render(request, 'jijiapp/categories.html', context)
 
+    
+    
 @login_required
 def detail(request, pk):
     img = HomeImage.objects.all()
     homeimage = img.first()
     user = request.user
-    item =Items.objects.all()
+    # item =Items.objects.all()
     # item_url = reverse('chat', args=[pk])
     chat_url = reverse('chatdetail', args=[pk])
     
@@ -187,14 +195,15 @@ def detail(request, pk):
     store_url = items.store.id
     store_routing = reverse('jijistore:enter_store', args = [store_url])
     
-    # counts = Images.objects.aggregate(count = Count('image'))
+    # category
+    # cat =items.category.all()
+    
+    # category = Items.objects.filter(category__in=cat).exclude(pk=items.pk)
+    catego =category(request, pk)
+   
+   
     conversations = Conversation.objects.filter(members=request.user)
-
-    # count = 0
-    # for conversation in conversations:
-    #     recent_message = conversation.messages.order_by('-created_at').first()
-    #     if recent_message:
-    #         count += 1
+    
     count = 0
     for conversation in conversations:
         conversation_counts = ConversationCount.objects.filter(conversation=conversation)
@@ -218,6 +227,7 @@ def detail(request, pk):
     
     # feedback section
     comments = Comment.objects.filter(item=items)
+   
 
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -248,11 +258,11 @@ def detail(request, pk):
     rate_item(request, pk)
     
     context = {
-        # 'rating':rating,
+        
         'detail_item':items,
         'comments': comments,
         'form': form,
-        'all_item':item,
+        # 'all_item':item,
         'user':user,
         'count':count,
         # 'item_url':item_url,
@@ -262,6 +272,7 @@ def detail(request, pk):
         'item_category':item_category,
         'viewed_items':viewed_items,
         'homeimage':homeimage,
+        'category':catego,
     }
     
     item = view(request)
@@ -290,14 +301,18 @@ def itemupload(request, store_id):
         file = request.FILES.getlist('image')
 
         if all([itemsform.is_valid(), imageforms.is_valid()]):
+            # category = itemsform.cleaned_data['category']            
             item = itemsform.save(commit=False)
             item.user = request.user
             item.store = store
-            item.save()
             
+            item.save()
+                                  
+
             selected_category_id =itemsform.cleaned_data['category']
             selected_categories=Category.objects.filter(id__in = selected_category_id)
             item.category.set(selected_categories)
+            # item.category.add(category)
             
 
             for i in file:
@@ -305,7 +320,7 @@ def itemupload(request, store_id):
 
             return redirect('index')
 
-        return redirect('itemupload')
+        return redirect(reverse('itemupload', args=[store_id]))
 
     imageforms = ImageForm()
     itemsform = ItemsForm()

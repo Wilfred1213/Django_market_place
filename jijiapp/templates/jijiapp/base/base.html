@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jiji Clone</title>
+    <title>Market Place</title>
 
    <!-- css -->
    
@@ -30,7 +30,38 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- <script src="{% static 'script.js' %}"></script> -->
-    
+ <style>
+  /* for categorys controlling the height and the layout of the images */
+
+.rowheight {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.colheight {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card {
+  height: 100%;
+}
+
+.card-img-top {
+  
+  object-fit: contain;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+/* end */
+ </style>   
 
 <script>
 $(document).ready(function() {
@@ -74,7 +105,7 @@ $(document).ready(function() {
  
     
   <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ffffff;">
-    <div class="container-fluid">
+    <div class="container mb-5">
       <a class="navbar-brand" href="{% url 'index' %}" style="color: #fd7e14;"><strong>Welcome to Market Place</strong></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

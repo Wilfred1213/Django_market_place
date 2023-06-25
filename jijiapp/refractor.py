@@ -57,3 +57,15 @@ def view(request):
                 
             return item
     
+def category(request, item_id):
+   
+    try:
+        item = Items.objects.get(id=item_id)
+        cat = item.category.all()  # Get the related categories
+        categor = Items.objects.filter(category__in=cat) 
+    except Items.DoesNotExist:
+        cat=None
+        categor = None
+        messages.error(request, f'No such category yet')
+    
+    return categor

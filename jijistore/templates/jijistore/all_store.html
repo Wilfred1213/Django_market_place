@@ -6,15 +6,15 @@
 
 {% block content %}
 
-<div class="mx-5 px-5 col-md-5 mx-auto bg-info ">
+<div class="mx-5 px-5 col-md-5 col-sm-12 mx-auto bg-info ">
     <div class="text-danger text-center">
         {% for message in messages %}
         <span>{{ message }}</span>
         {% endfor %}
     </div>
 </div>
-<div class="container my-4">
-    <div class="col-8 col-md-6 col-lg-4 mx-auto">
+<div class="container mb-5">
+    <div class="col-sm-8 col-md-6 col-lg-4 mx-auto">
         <div class="text-center py-4 rounded-lg" style="background-color: #ff7f50;">
             <h2 class="h4 font-weight-bold text-white">Enter a Store</h2>
             <p class="text-white">Discover unique products and explore amazing stores</p>
@@ -26,7 +26,7 @@
 
 
 
-<div class="row rowwidth pt-5 bg-dark">
+<div class="row pt-5 bg-dark">
     <div class="container container-fluid">
         <div class="text-center my-4 bg-primary rounded p-4">
             <h3 class="text-white mb-3">Add Store</h3>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="card-body">
                     <hr>
-                    <p class="card-text card1">{{ store.discription }}</p>
+                    <p class="card-text text-white bg-dark">{{ store.discription }}</p>
                     <hr>
                     <p class="card-text">Location: {{ store.location }}</p>
                     <small class="card-footer text-danger">{{ store.create_date | date }} | {{ store.author }}</small>

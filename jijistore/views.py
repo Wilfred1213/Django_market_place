@@ -72,7 +72,7 @@ def enter_store(request, store):
 
     context = {
         'details':stor,
-        'items':all_items,
+        'all_item':all_items,
     }
     return render(request, 'jijistore/store_detail.html', context)
 @login_required

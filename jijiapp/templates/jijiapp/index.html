@@ -6,7 +6,34 @@
 </div>
   
 
-    {% include 'jijiapp/base/searchbase.html' %}
+  {% include 'jijiapp/base/searchbase.html' %}
+ {% comment %} 
+<!-- get all teh category -->
+<div class="container mb-5 pt-2">
+    <div class="row pt-5 bg-dark">
+      {% for cat in category %}
+      <div class="col-lg-3 col-md-3 col-sm-4 mb-5 ">
+        <div class="bg-light card-style" style="opacity: 100%;">
+          <a href="{% url 'categories' cat.id %}" class="card-link text-decoration-none ">
+            <div class="container-fluid" style="width: 100px;">
+              <i class="{{ cat.icon_class |safe }} pt-3 text-info" style="font-size: 3rem; margin: 20px;"></i>
+            </div>
+            
+          </a>
+          <div class="card-body">
+            <h5 class="text-center lead">{{ cat.name|safe }}</h5>
+          
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+</div>
+{% endcomment %}  
+ 
+  
+  <!-- end -->
+
     
     {% include 'jijiapp/base/homebase.html' %}
     {% include 'jijiapp/base/footer.html' %}

@@ -48,6 +48,7 @@ class ItemsForm(ModelForm):
 
     class Meta:
         model =Items
+        # fields = ['title', 'price', 'phone', 'location','description', 'thumbnails', 'category']
         exclude = ['user', 'store']
         
     def __init__(self, *args, **kwargs):

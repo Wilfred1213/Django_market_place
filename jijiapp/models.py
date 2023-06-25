@@ -7,45 +7,43 @@ from django.core.mail import send_mail
 # Create your models here.
 
 class Category(models.Model):
-    food ='Food'
-    agriculture = 'Agriculture'
-    computer ='Computer'
-    electronics ='Electronics'
-    fashion ='Fashion'
-    school = 'School'
-    tailor ='Tailor'
-    tool ='Tools'
-    phon = 'Phone'
-    kitchen = 'Kitchen'
-    ride = 'Ride'
-    cars ='Car'
-    office = 'Office'
-    jowery = 'Joweries'
+    FOOD = 'Food'
+    AGRICULTURE = 'Agriculture'
+    COMPUTER = 'Computer'
+    ELECTRONICS = 'Electronics'
+    FASHION = 'Fashion'
+    SCHOOL = 'School'
+    TAILOR = 'Tailor'
+    TOOL = 'Tools'
+    PHONE = 'Phone'
+    KITCHEN = 'Kitchen'
+    RIDE = 'Ride'
+    CARS = 'Car'
+    OFFICE = 'Office'
+    JEWELRY = 'Jewelry'
     
-    
-    
-    
-    CATEGORY_CHOICES=(
-    (agriculture, 'Agriculture'),
-    (computer, 'Computers'),
-    (electronics, 'Electronics'),
-    (fashion, 'Fashion'),
-    (school, 'School'),
-    (tailor, 'Tailor'),
-    (tool, 'Tools'),
-    (phon, 'Phone'),
-    (kitchen, 'Kitechen'),
-    (ride, 'Ride'),
-    (cars, 'Cars'),
-    (office, 'Office'),
-    (food, 'Food'),
-    (jowery, 'Joweries'),
-    
-    
+    CATEGORY_CHOICES = (
+        (FOOD, 'Food'),
+        (AGRICULTURE, 'Agriculture'),
+        (COMPUTER, 'Computers'),
+        (ELECTRONICS, 'Electronics'),
+        (FASHION, 'Fashion'),
+        (SCHOOL, 'School'),
+        (TAILOR, 'Tailor'),
+        (TOOL, 'Tools'),
+        (PHONE, 'Phone'),
+        (KITCHEN, 'Kitchen'),
+        (RIDE, 'Ride'),
+        (CARS, 'Cars'),
+        (OFFICE, 'Office'),
+        (JEWELRY, 'Jewelry'),
     )
-    name =models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    
+    name = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    icon_class = models.CharField(max_length=50, null = True)
+    
     def __str__(self):
-        return '%s' %(self.name)
+        return self.name
 
 class Store(models.Model):
     name = models.SlugField(unique =True, max_length=50)
@@ -111,8 +109,7 @@ class Items(models.Model):
     location =models.CharField(max_length=20, null=True, blank=True)
     post_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     thumbnails =models.ImageField(upload_to='thumbnails/', null=True, blank=True)
-    category = models.ManyToManyField(Category, related_name ='category')
-    # comment = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True, blank = True)
+    category = models.ManyToManyField(Category, related_name ='categories')
     
 
     def __str__(self):

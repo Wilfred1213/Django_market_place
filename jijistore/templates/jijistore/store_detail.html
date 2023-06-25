@@ -14,7 +14,7 @@
     
 </div>
 <div class="container my-4">
-    <div class="col-8 col-md-6 col-lg-4 mx-auto">
+    <div class="col-sm-8 col-md-6 col-lg-4 mx-auto">
         <div class="text-center py-4 rounded-lg" style="background-color: #ff7f50;">
             <h2 class="h4 font-weight-bold text-white">{{ details.name }}</h2>
             <p class="text-white">Fine all items you need here</p>
@@ -22,43 +22,8 @@
         </div>
     </div>
 </div>
-{% if items %}
-<div class="row rowwidth pt-5 bg-dark">
-    {% for item in items %}
-    <div class="col-md-4 col-sm-4 col-lg-3 card-style4 mx-auto mb-4">
-        <div class="card" style="background-color: rgb(196, 223, 223)">
-            <div class="card-image-top">
-                <img src="{{ item.thumbnails.url }}" alt="first image" class="pt-5 card-img-top img-fluid mx-auto image0 thumbnails w-100" style="height: 200px; object-fit: contain;">
-                <div class="card-body">
-                    <p class="card-title">{{ item.title }}</p>
-                    <hr>
-                    <p class="card-text">Price: <strike>N</strike>{{ item.price }}</p>
-                    <div class="row">
-                        {% if user != item.user %}
-                        <div class="col-12 text-center mb-3">
-                            <a href="{% url 'detail' item.pk %}" class="btn btn-success btn-block">View</a>
-                        </div>
-                        {% else %}
-                        <div class="col-6 text-center mb-3">
-                            <a href="{% url 'jijistore:all_store' %}" class="btn btn-success btn-block">Store</a>
-                        </div>
-                        <div class="col-6 text-center mb-3">
-                            <a href="{% url 'detail' item.pk %}" class="btn btn-success btn-block">View</a>
-                        </div>
-                        <div class="col-6 text-center mb-3">
-                            <a href="{% url 'deleteitem' item.id %}" class="btn btn-success bg-danger btn-block">Delete</a>
-                        </div>
-                        <div class="col-6 text-center mb-3">
-                            <a href="{% url 'edit_item' item.id %}" class="btn btn-success bg-success btn-block">Edit</a>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endfor %}
-</div>
+{% if all_item %}
+{% include 'jijiapp/base/homebase.html' %}
 {% else %}
 <p class="text-center text-danger">
     No Item in this store yet.!!
